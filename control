@@ -1,0 +1,9 @@
+Package: com.sticktron.croutons
+Name: Croutons
+Depends: firmware (>= 10.0), mobilesubstrate, preferenceloader
+Version: 0.9.0
+Architecture: iphoneos-arm
+Description: App icons for breadcrumbs.
+Maintainer: Sticktron
+Author: Sticktron <sticktron@hotmail.com>
+Section: Tweaks
