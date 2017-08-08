@@ -9,21 +9,8 @@
 
 #import "headers.h"
 
-//stuff
-static NSString * targetBundle;
-static UIImage * appIconImage; //woudl be easier to use as static properties i figure
 static UIImageView * appIconWatcher;
-@interface UIControlTargetAction : NSObject
-@end
 
-@interface UISystemNavigationAction : NSObject
--(id)bundleIdForDestination:(int)arg1;
-@end
-
-//
-
-
-//
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     HBLogDebug(@"getting image for: %@", bundleId);
 
@@ -38,8 +25,6 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 @property (nonatomic, strong) UIImage *appIconImage;
 @property (nonatomic, strong) UIImageView *appIconView;
 @end
-
-
 
 
 %hook _UIStatusBarSystemNavigationItemButton
