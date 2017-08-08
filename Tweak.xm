@@ -12,10 +12,10 @@
 
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     HBLogDebug(@"getting image for: %@", bundleId);
-    
+
     UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
     HBLogWarn(@"image = %@", image);
-    
+
     return image;
 }
 
@@ -34,10 +34,10 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     %log;
     if ((self = %orig)) {
         self.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.25];
-        
+
         self.appIconImage = appIconForBundleIdentifier(NSBundle.mainBundle.bundleIdentifier);
         HBLogDebug(@"self.appIconImage = %@", self.appIconImage);
-        
+
         self.appIconView = [[UIImageView alloc] init];
         self.appIconView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.25];
         self.appIconView.image = self.appIconImage;
@@ -50,11 +50,11 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 - (void)layoutSubviews {
     // %log;
     %orig;
-    
+
     // [self setTitle:@"--" forState:UIControlStateNormal];
-    
+
     CGRect frame;
-    
+
     // Adjust appIconView frame...
 
     // UIView *label = [self _titleView];
@@ -64,22 +64,23 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     // frame.size = CGSizeMake(self.bounds.size.height, self.bounds.size.height);
     // frame = self.appIconView.frame;
     // self.appIconView.frame = frame;
-    
+
     UIView *label = [self _titleView];
     HBLogDebug(@"titleView = %@", label);
     UIView *chevron = [self _imageView];
     HBLogDebug(@"imageView = %@", chevron);
-        
-    frame = (CGRect){ {16, 0}, {self.bounds.size.height, self.bounds.size.height} };
+
+    frame = (CGRect){ {self.imageView.frame.origin.x + self.imageView.frame.size.width + 4, 0}, {self.bounds.size.height, self.bounds.size.height} }; //programaticcaly determines + padding, just cus
     self.appIconView.frame = frame;
-    
-    
+
+    //this probably did something worthwhile so ill leave it incase
+    //BLogDebug(@"setting frmae as self.frame %@", NSStringFromCGRect(self.frame));
     // Adjust main frame
-    frame = self.frame;
-    frame.size.width = self.appIconView.frame.origin.x + self.appIconView.frame.size.width;
-    frame.size.width += 4; //padding
-    self.frame = frame;
-    
+    //frame = self.frame;
+    //frame.size.width = self.appIconView.frame.origin.x + self.appIconView.frame.size.width;
+    //frame.size.width += 4; //padding
+    //self.frame = frame;
+
     // Adjust parent frame (actual StatusBar item view)
     // UIStatusBarBreadcrumbItemView *sv = (UIStatusBarBreadcrumbItemView *)[self superview];
     // HBLogDebug(@"superview = %@", sv);
@@ -125,15 +126,15 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 - (float)updateContentsAndWidth {
     %log;
 	float r = %orig;
-    
+
     // [self invalidateIntrinsicContentSize];
-        
+
     _UIStatusBarSystemNavigationItemButton *btn = [self button];
     HBLogDebug(@"btn = %@", btn);
-    
+
     // [btn setTitle:@"  " forState:UIControlStateNormal];
     // [[btn _titleView] setHidden:YES];
-    
+
     // Get app icon from bundle, if necessary
     // if (!appIcon) {
     //     NSString* bundleId = [[NSBundle mainBundle] bundleIdentifier];
@@ -141,32 +142,34 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     //     appIcon = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:1];
     //     HBLogDebug(@"appIcon for bundle = %@", appIcon);
     // }
-    
+
     // UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(16, 0, 12, 12)];
     // iconView.image = appIcon;
-    
+
     // Adjust iconView frame
     // CGRect frame = iconView.frame;
     // frame.origin.y = (btn.bounds.size.height - iconView.frame.size.height) / 2.0;
     // iconView.frame = frame;
     // HBLogDebug(@"iconView.frame = %@", NSStringFromCGRect(iconView.frame));
-    
+
     // [btn addSubview:iconView];
-    
+
     // Adjust nav button frame
     // frame = btn.frame;
     // frame.size.width = 32;
     // btn.clipsToBounds = YES;
     // btn.frame = frame;
     // HBLogDebug(@"btn.frame = %@", NSStringFromCGRect(btn.frame));
-
+    HBLogDebug(@"self.frame %@", NSStringFromCGRect(self.frame));
     CGRect frame = self.frame;
     // frame.size.width = btn.frame.size.width;
-    frame.size.width = 32; // TODO: Replace hard-coded value
+    frame.size.width = frame.size.width * 2; //ok this actually seems to work with no problems tho  //self.frame.size.width + self.bounds.size.height - 4; //above we worked off the height and set it as the width so we can do the same here prob //32; // TODO: Replace hard-coded value
     self.frame = frame;
-    
+
+    HBLogDebug(@"self.frame after %@", NSStringFromCGRect(self.frame));
+
     self.clipsToBounds = YES;
-    
+
     return r;
 }
 
@@ -210,12 +213,12 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 %ctor {
 	@autoreleasepool {
 		NSLog(@"Croutons, by Sticktron.");
-        
+
         // TODO: Load Prefs
         // Enabled: YES/NO
-        
+
         // TODO: Should filter out some non-UI process from hooks?
-        
+
         %init;
 	}
 }
