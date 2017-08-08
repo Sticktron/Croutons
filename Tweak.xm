@@ -69,9 +69,8 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 - (void)layoutSubviews {
     // %log;
     %orig;
-
+    //still was unknown, lets look somewher else
     CGRect frame;
-
 
     frame = (CGRect){ {self.imageView.frame.origin.x + self.imageView.frame.size.width + 4, 0}, {self.bounds.size.height, self.bounds.size.height} }; //programaticcaly determines + padding, just cus
     self.appIconView.frame = frame;
@@ -93,29 +92,17 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 }
 
 - (float)updateContentsAndWidth {
-    %log;
+
 	float r = %orig;
-
-
-    _UIStatusBarSystemNavigationItemButton *btn = [self button];
-    HBLogDebug(@"btn = %@", btn);
-
-
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width*2, self.frame.size.height);
-
-
-    self.clipsToBounds = YES;
+   self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width*2, self.frame.size.height);
+   self.clipsToBounds = YES;
 
     //tada
-    targetBundle = [self.systemNavigationAction bundleIdForDestination:0];
-    HBLogDebug(@"targetbundle is %@", targetBundle);
-    if ([targetBundle hasPrefix:@"com.apple.springboard"]) targetBundle = @"com.apple.springboard";
-    if (targetBundle){
-      appIconImage = appIconForBundleIdentifier(targetBundle);
-      HBLogDebug(@"value of appIconImage %@", appIconImage);
-            //HBLogDebug(@"appiconimage %@", self.appIconImage);
-            if (appIconWatcher) appIconWatcher.image = appIconImage;
-   }
+    NSString * targetBundle = [self.systemNavigationAction bundleIdForDestination:0];
+      if ([targetBundle hasPrefix:@"com.apple.springboard"]) targetBundle = @"com.apple.springboard";
+      if (targetBundle){
+         if (appIconWatcher && !appIconWatcher.image) appIconWatcher.image = appIconForBundleIdentifier(targetBundle);
+      }
 
     return r;
 }
