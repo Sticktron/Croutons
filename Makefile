@@ -1,6 +1,6 @@
 
-export THEOS_DEVICE_IP=localhost
-export THEOS_DEVICE_PORT=2222
+#export THEOS_DEVICE_IP=localhost
+#export THEOS_DEVICE_PORT=2222
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = Croutons
