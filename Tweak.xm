@@ -12,13 +12,11 @@
 static UIImageView * appIconWatcher;
 
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
-    HBLogDebug(@"getting image for: %@", bundleId);
-
     UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
-    HBLogWarn(@"image = %@", image);
-
+    HBLogWarn(@"image for '%@' = %@", bundleId, image);
     return image;
 }
+
 
 #pragma mark - Breadcrumb Item Button ------------------------------------------
 
