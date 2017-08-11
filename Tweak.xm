@@ -20,6 +20,7 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     return image;
 }
 
+#pragma mark - Breadcrumb Item Button ------------------------------------------
 
 @interface _UIStatusBarSystemNavigationItemButton (Croutons)
 @property (nonatomic, strong) UIImage *appIconImage;
@@ -31,19 +32,17 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 %property (nonatomic, retain) UIImageView *appIconView;
 
 - (id)initWithFrame:(CGRect)frame {
-   //HBLogDebug(@"uiapplication %@", [%c(SpringBoard) mainApplication]);
-    %log;
     if ((self = %orig)) {
-      //target unknown this early, wait till layoutSubviews
         self.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.25];
-        //HBLogDebug(@"bundlestuff %@", NSBundle.mainBundle.bundleIdentifier);
-        //self.appIconImage = appIconForBundleIdentifier(NSBundle.mainBundle.bundleIdentifier);
-        HBLogDebug(@"self.appIconImage = %@", self.appIconImage);
+        
+        // NOTE: target unknown this early, wait till layoutSubviews
+        
         self.appIconView = [[UIImageView alloc] init];
         self.appIconView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.25];
         self.appIconView.image = self.appIconImage;
         //HBLogDebug(@"self.appIconView = %@", self.appIconView);
         [self addSubview:self.appIconView];
+        
         appIconWatcher = self.appIconView;
     }
     return self;
@@ -51,7 +50,8 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 
 - (void)layoutSubviews {
     %orig;
-    //still was unknown, lets look somewher else
+    
+    // NOTE: target still unknown, lets look somewher else
     CGRect frame;
 
     frame = (CGRect){ {self.imageView.frame.origin.x + self.imageView.frame.size.width + 4, 0}, {self.bounds.size.height, self.bounds.size.height} }; //programaticcaly determines + padding, just cus
@@ -61,8 +61,7 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 %end
 
 
-
-#pragma mark - Breadcrumb Item View --------------------------------------------
+#pragma mark - Breadcrumb Item -------------------------------------------------
 
 %hook UIStatusBarBreadcrumbItemView
 
