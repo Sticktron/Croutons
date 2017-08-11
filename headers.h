@@ -152,3 +152,11 @@
 + (int)_iconVariantForUIApplicationIconFormat:(int)arg1 scale:(float*)arg2;
 - (id)_applicationIconImageForFormat:(int)arg1 precomposed:(BOOL)arg2;
 @end
+
+
+@interface UIControlTargetAction : NSObject
+@end
+
+@interface UISystemNavigationAction : NSObject
+-(id)bundleIdForDestination:(int)arg1;
+@end
