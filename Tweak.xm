@@ -26,11 +26,9 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 @property (nonatomic, strong) UIImageView *appIconView;
 @end
 
-
 %hook _UIStatusBarSystemNavigationItemButton
 %property (nonatomic, retain) UIImage *appIconImage;
 %property (nonatomic, retain) UIImageView *appIconView;
-
 
 - (id)initWithFrame:(CGRect)frame {
    //HBLogDebug(@"uiapplication %@", [%c(SpringBoard) mainApplication]);
@@ -52,15 +50,12 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 }
 
 - (void)layoutSubviews {
-    // %log;
     %orig;
     //still was unknown, lets look somewher else
     CGRect frame;
 
     frame = (CGRect){ {self.imageView.frame.origin.x + self.imageView.frame.size.width + 4, 0}, {self.bounds.size.height, self.bounds.size.height} }; //programaticcaly determines + padding, just cus
     self.appIconView.frame = frame;
-
-
 }
 
 %end
@@ -77,7 +72,6 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 }
 
 - (float)updateContentsAndWidth {
-
 	float r = %orig;
    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width*2, self.frame.size.height);
    self.clipsToBounds = YES;
@@ -92,16 +86,13 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     return r;
 }
 
-
-
-
 %end
 
 
 %ctor {
 	@autoreleasepool {
 		NSLog(@"Croutons, by Sticktron.");
-
+        
         // TODO: Load Prefs
         // Enabled: YES/NO
 
