@@ -12,7 +12,8 @@
 static UIImageView * appIconWatcher;
 
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
-    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
+    // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
+    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0 scale:[UIScreen mainScreen].scale];
     HBLogWarn(@"image for '%@' = %@", bundleId, image);
     return image;
 }
