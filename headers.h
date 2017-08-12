@@ -1,3 +1,6 @@
+@interface NSUserDefaults (Private)
+- (instancetype)_initWithSuiteName:(NSString *)suiteName container:(NSURL *)container;
+@end
 
 @interface UIStatusBarItemView : UIView
 // {
@@ -74,6 +77,16 @@
 - (void)willMoveToWindow:(id)arg1;
 @end
 
+@interface _UIStatusBarSystemNavigationItemButton : UIButton
++ (BOOL)_buttonTypeIsModernUI:(int)arg1;
+- (CGRect)imageRectForContentRect:(CGRect)arg1;
+- (BOOL)shouldLayoutImageOnRight;
+- (CGRect)titleRectForContentRect:(CGRect)arg1;
+//
+- (UIImageView *)imageView;
+- (UIImageView *)_imageView;
+- (UILabel *)_titleView;
+@end
 
 @interface UIStatusBarSystemNavigationItemView : UIStatusBarItemView
 // {
@@ -81,14 +94,14 @@
 //     int  _currentLabelCompressionLevel;
 //     float  _maxWidth;
 // }
-// @property (nonatomic, retain) UIButton *button;
+@property (nonatomic, retain) _UIStatusBarSystemNavigationItemButton *button;
 // @property (nonatomic) int currentLabelCompressionLevel;
 // @property (nonatomic) float maxWidth;
 // @property (nonatomic, retain) NSString *title;
 - (CGSize)_buttonSize;
 - (BOOL)_shouldLayoutImageOnRight;
 - (float)addContentOverlap:(float)arg1;
-- (id)button;
+// - (id)button;
 - (int)currentLabelCompressionLevel;
 - (float)extraLeftPadding;
 - (float)extraRightPadding;
@@ -96,7 +109,7 @@
 - (BOOL)layoutImageOnTrailingEdge;
 - (float)maxWidth;
 - (float)resetContentOverlap;
-- (void)setButton:(id)arg1;
+// - (void)setButton:(id)arg1;
 - (void)setCurrentLabelCompressionLevel:(int)arg1;
 - (void)setMaxWidth:(float)arg1;
 - (void)setTitle:(id)arg1;
@@ -126,18 +139,6 @@
 - (void)userDidActivateButton:(id)arg1;
 @end
 
-@interface _UIStatusBarSystemNavigationItemButton : UIButton
-+ (BOOL)_buttonTypeIsModernUI:(int)arg1;
-- (CGRect)imageRectForContentRect:(CGRect)arg1;
-- (BOOL)shouldLayoutImageOnRight;
-- (CGRect)titleRectForContentRect:(CGRect)arg1;
-//
-- (UIImageView *)imageView;
-- (UIImageView *)_imageView;
-- (UILabel *)_titleView;
-@end
-
-
 // @interface UIStatusBarNavigationItemView : UIStatusBarAppIconItemView
 // - (id)_appBundleIdentifier;
 // - (int)buttonType;
@@ -146,11 +147,7 @@
 @interface UIImage (Private)
 + (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2;
 + (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(float)arg3;
-+ (id)imageNamed:(id)arg1;
-+ (id)imageNamed:(id)arg1 inBundle:(id)arg2;
-+ (int)_iconVariantForUIApplicationIconFormat:(int)arg1 idiom:(int)arg2 scale:(float*)arg3;
-+ (int)_iconVariantForUIApplicationIconFormat:(int)arg1 scale:(float*)arg2;
-- (id)_applicationIconImageForFormat:(int)arg1 precomposed:(BOOL)arg2;
+- (id)_initWithData:(id)arg1 scale:(float)arg2;
 @end
 
 
@@ -158,5 +155,5 @@
 @end
 
 @interface UISystemNavigationAction : NSObject
--(id)bundleIdForDestination:(int)arg1;
+- (id)bundleIdForDestination:(int)arg1;
 @end
