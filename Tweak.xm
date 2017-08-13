@@ -10,6 +10,7 @@
 #import "headers.h"
 
 static UIImageView * appIconWatcher;
+static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.sticktron.croutons.plist";
 
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
@@ -89,13 +90,15 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 
 %ctor {
 	@autoreleasepool {
-		NSLog(@"Croutons, by Sticktron.");
+		HBLogDebug(@"Croutons loaded");
         
-        // TODO: Load Prefs
-        // Enabled: YES/NO
-
-        // TODO: Should filter out some non-UI process from hooks?
-
+        // load settings
+        NSDictionary *settings = [NSMutableDictionary dictionaryWithContentsOfFile:kPrefsPlistPath];
+        BOOL isEnabled = settings[@"Enabled"] ? [settings[@"Enabled"] boolValue] : YES;
+        HBLogDebug(@"Croutons is: %@", isEnabled ? @"Enabled" : @"Disabled");
+        
+        if (!isEnabled) return;
+        
         %init;
 	}
 }
