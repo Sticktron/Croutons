@@ -9,17 +9,15 @@
 
 #import "headers.h"
 
+static NSDictionary * prefs; //cant use cfprefs because they 100% do not update instantly in sandboxed apps
 static UIImageView * appIconWatcher;
 
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     HBLogDebug(@"getting image for: %@", bundleId);
-
     UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
     HBLogWarn(@"image = %@", image);
-
     return image;
 }
-
 
 @interface _UIStatusBarSystemNavigationItemButton (Croutons)
 @property (nonatomic, strong) UIImage *appIconImage;
@@ -33,36 +31,29 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 
 
 - (id)initWithFrame:(CGRect)frame {
-   //HBLogDebug(@"uiapplication %@", [%c(SpringBoard) mainApplication]);
-    %log;
-    if ((self = %orig)) {
-      //target unknown this early, wait till layoutSubviews
-        self.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.25];
-        //HBLogDebug(@"bundlestuff %@", NSBundle.mainBundle.bundleIdentifier);
-        //self.appIconImage = appIconForBundleIdentifier(NSBundle.mainBundle.bundleIdentifier);
-        HBLogDebug(@"self.appIconImage = %@", self.appIconImage);
-        self.appIconView = [[UIImageView alloc] init];
-        self.appIconView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.25];
-        self.appIconView.image = self.appIconImage;
-        //HBLogDebug(@"self.appIconView = %@", self.appIconView);
-        [self addSubview:self.appIconView];
-        appIconWatcher = self.appIconView;
-    }
-    return self;
+      self = %orig;
+      prefs = [NSDictionary dictionaryWithContentsOfFile:@"/User/Library/Preferences/com.sticktron.croutons.plist"]; //this doesnt get called too often, so its possible that checking here wont hurt
+      HBLogDebug(@"prefs %@", prefs);
+      if (self && [prefs[@"enable"] boolValue]) {
+
+           self.appIconView = [[UIImageView alloc] init];
+           self.appIconView.layer.masksToBounds = YES;
+           self.appIconView.layer.cornerRadius = 3;
+
+           self.appIconView.image = self.appIconImage;
+
+           [self addSubview:self.appIconView];
+           appIconWatcher = self.appIconView;
+      }
+   return self;
 }
 
 - (void)layoutSubviews {
-    // %log;
     %orig;
-    //still was unknown, lets look somewher else
-    CGRect frame;
-
-    frame = (CGRect){ {self.imageView.frame.origin.x + self.imageView.frame.size.width + 4, 0}, {self.bounds.size.height, self.bounds.size.height} }; //programaticcaly determines + padding, just cus
-    self.appIconView.frame = frame;
-
-
+    if ([prefs[@"enable"] boolValue]) {
+    CGRect frame = (CGRect){ {self.imageView.frame.origin.x + self.imageView.frame.size.width + 4, 0}, {self.bounds.size.height, self.bounds.size.height} }; //programaticcaly determines + padding, just cus
+    self.appIconView.frame = frame;}
 }
-
 %end
 
 
@@ -72,41 +63,47 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
 %hook UIStatusBarBreadcrumbItemView
 
 - (void)setTitle:(id)arg1 {
-    %log;
-    %orig(@"");
+    [prefs[@"enable"] boolValue] ? %orig(@"") : %orig;
 }
 
 - (float)updateContentsAndWidth {
-
 	float r = %orig;
-   self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width*2, self.frame.size.height);
-   self.clipsToBounds = YES;
-
-    //tada
+      if ([prefs[@"enable"] boolValue]){
+         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width*2, self.frame.size.height);
+         self.clipsToBounds = YES;
+      }
+    //tada, so this worked for the last double sided breadcrumb i encountered, but they were both for the same app so im not really sure
+    //to me, it might make sense that since there's two breadcrumbs it doesnt even matter because they're both seperate objects with seperate .systemNavActions so it grabs the right bundle
+    //anyways, its weird that there's a method for multiple ones when there doesnt seem to be any use of it , maybe worth looking into!
     NSString * targetBundle = [self.systemNavigationAction bundleIdForDestination:0];
-      if ([targetBundle hasPrefix:@"com.apple.springboard"]) targetBundle = @"com.apple.springboard";
-      if (targetBundle){
+    HBLogWarn(@"targetBundle %@", targetBundle);
+    if ([prefs[@"enable"] boolValue]){
+      if ([targetBundle isEqualToString:@"com.apple.springboard.spotlight-placeholder"]) {
+         if (appIconWatcher && !appIconWatcher.image) appIconWatcher.image = [UIImage imageNamed:@"UITabBarSearch" inBundle:[NSBundle bundleWithPath:@"/Applications/Bridge.app/"]];
+      }
+      else if (targetBundle){
          if (appIconWatcher && !appIconWatcher.image) appIconWatcher.image = appIconForBundleIdentifier(targetBundle);
       }
-
-    return r;
+   }
+   else appIconWatcher.image = nil;
+   //}
+   return r;
 }
-
 
 
 
 %end
 
-
 %ctor {
 	@autoreleasepool {
 		NSLog(@"Croutons, by Sticktron.");
+		//loadPreferences();
+      %init;
+      prefs = [NSDictionary dictionaryWithContentsOfFile:@"/User/Library/Preferences/com.sticktron.croutons.plist"];
+      if (!prefs) prefs = [[NSMutableDictionary alloc] init];;
+      HBLogDebug(@"prefs %@", prefs);
 
-        // TODO: Load Prefs
-        // Enabled: YES/NO
 
-        // TODO: Should filter out some non-UI process from hooks?
-
-        %init;
+      //@TODO filter out some things ??
 	}
 }

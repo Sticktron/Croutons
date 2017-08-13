@@ -1,0 +1,12 @@
+{
+   entry = {
+	bundle = saladbar;
+	cell = PSSwitchCell;
+   key = enable;
+   defaults = com.sticktron.croutons;
+	isController = 1;
+	label = "Croutons";
+   PostNotification = "com.sticktron.croutons.changed";
+   //icon =
+   };
+}

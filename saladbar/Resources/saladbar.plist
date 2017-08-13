@@ -1,0 +1,12 @@
+title = "";
+items = (
+	{
+		cell = PSSwitchCell;
+		default = 1;
+		defaults = com.sticktron.croutons;
+		key = enable;
+		label = "ENABLE";
+		PostNotification = com.sticktron.croutons.changed;
+	}
+
+);

@@ -1,6 +1,6 @@
 
-#export THEOS_DEVICE_IP=localhost
-#export THEOS_DEVICE_PORT=2222
+export THEOS_DEVICE_IP=localhost
+export THEOS_DEVICE_PORT=2222
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = Croutons
@@ -13,3 +13,5 @@ include $(THEOS_MAKE_PATH)/tweak.mk
 
 after-install::
 	install.exec "killall -9 SpringBoard"
+SUBPROJECTS += saladbar
+include $(THEOS_MAKE_PATH)/aggregate.mk
