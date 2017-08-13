@@ -1,6 +1,3 @@
-@interface NSUserDefaults (Private)
-- (instancetype)_initWithSuiteName:(NSString *)suiteName container:(NSURL *)container;
-@end
 
 @interface UIStatusBarItemView : UIView
 // {
@@ -147,11 +144,7 @@
 @interface UIImage (Private)
 + (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2;
 + (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(float)arg3;
-- (id)_initWithData:(id)arg1 scale:(float)arg2;
-@end
-
-
-@interface UIControlTargetAction : NSObject
+- (id)_applicationIconImageForFormat:(int)arg1 precomposed:(BOOL)arg2;
 @end
 
 @interface UISystemNavigationAction : NSObject
