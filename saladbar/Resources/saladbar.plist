@@ -6,7 +6,6 @@ items = (
 		defaults = com.sticktron.croutons;
 		key = enable;
 		label = "ENABLE";
-		PostNotification = com.sticktron.croutons.changed;
 	}
 
 );

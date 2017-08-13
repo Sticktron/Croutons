@@ -14,7 +14,7 @@ static UIImageView * appIconWatcher;
 
 static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     HBLogDebug(@"getting image for: %@", bundleId);
-    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
+    UIImage *image = [%c(UIImage) _applicationIconImageForBundleIdentifier:bundleId format:0];
     HBLogWarn(@"image = %@", image);
     return image;
 }
@@ -36,7 +36,7 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
       HBLogDebug(@"prefs %@", prefs);
       if (self && [prefs[@"enable"] boolValue]) {
 
-           self.appIconView = [[UIImageView alloc] init];
+           self.appIconView = [[%c(UIImageView) alloc] init];
            self.appIconView.layer.masksToBounds = YES;
            self.appIconView.layer.cornerRadius = 3;
 
@@ -79,7 +79,7 @@ static UIImage *appIconForBundleIdentifier(NSString *bundleId) {
     HBLogWarn(@"targetBundle %@", targetBundle);
     if ([prefs[@"enable"] boolValue]){
       if ([targetBundle isEqualToString:@"com.apple.springboard.spotlight-placeholder"]) {
-         if (appIconWatcher && !appIconWatcher.image) appIconWatcher.image = [UIImage imageNamed:@"UITabBarSearch" inBundle:[NSBundle bundleWithPath:@"/Applications/Bridge.app/"]];
+         if (appIconWatcher && !appIconWatcher.image) appIconWatcher.image = [%c(UIImage) imageNamed:@"UITabBarSearch" inBundle:[NSBundle bundleWithPath:@"/Applications/Bridge.app/"]];
       }
       else if (targetBundle){
          if (appIconWatcher && !appIconWatcher.image) appIconWatcher.image = appIconForBundleIdentifier(targetBundle);
