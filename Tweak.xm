@@ -56,11 +56,16 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     float ret = %orig;
     
     CGRect frame = self.frame;
-    frame.size.width = 32; //TODO: calculate dynamically
+    frame.size.width = self.button.frame.size.height * 2;
     self.frame = frame;
     
     return ret;
 }
+
+// - (void)setTitle:(id)title {
+//     %log;
+//     %orig(@"");
+// }
 
 %end
 
@@ -73,7 +78,6 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     %log;
     if ((self = %orig)) {
         self.croutonView = [[UIImageView alloc] init];
-        // self.croutonView.backgroundColor = UIColor.grayColor;
         [self addSubview:self.croutonView];
     }
     return self;
@@ -89,25 +93,18 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     
     // update crouton frame
     CGRect frame;
-    float size = self.imageView.frame.size.width * 1.5; // 16px
+    // float size = self.imageView.frame.size.width; // 12px
     frame.origin.x = titleView.frame.origin.x;
-    frame.origin.y = (self.bounds.size.height - size) * 0.5;
-    frame.size = CGSizeMake(size, size);
-    // HBLogDebug(@"setting croutonView.frame to: %@", NSStringFromCGRect(frame));
+    // frame.origin.y = (self.bounds.size.height - size) * 0.5;
+    // frame.origin.y = (self.bounds.size.height - self.croutonView.frame.size.height) * 0.5;
+    frame.size = CGSizeMake(self.bounds.size.height, self.bounds.size.height);
+    HBLogDebug(@"setting croutonView.frame to: %@", NSStringFromCGRect(frame));
     self.croutonView.frame = frame;
-    
-    // round crouton corners
-    // self.croutonView.layer.cornerRadius = floor(size / 4.0); // 3px
     
     // update button frame
     frame = self.frame;
     frame.size.width = self.croutonView.frame.origin.x + self.croutonView.frame.size.width;
     self.frame = frame;
-    
-    // update item frame
-    // frame = self.superview.frame;
-    // frame.size.width = self.frame.size.width;
-    // self.superview.frame = frame;
 }
 
 %end
