@@ -36,20 +36,11 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     %log;
 
     float ret = %orig;
-
-    // self.backgroundColor = UIColor.greenColor;
     
     CGRect frame = self.frame;
     frame.size.width = 32; //TODO: calculate dynamically
     self.frame = frame;
-//     self.clipsToBounds = YES;
-
-//     // get bundle id of target app
-//     NSString *targetBundleId = [self.systemNavigationAction bundleIdForDestination:0];
-//     HBLogDebug(@"target bundle ID = %@", targetBundleId);
-//     // if ([targetBundle hasPrefix:@"com.apple.springboard"]) targetBundle = @"com.apple.springboard";
-//     self.button.croutonView.image = [self croutonImageForBundleId:targetBundleId];
-
+    
     return ret;
 }
 
@@ -74,10 +65,8 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
 - (id)initWithFrame:(CGRect)frame {
     %log;
     if ((self = %orig)) {
-        // self.backgroundColor = UIColor.redColor;
-        
         self.croutonView = [[UIImageView alloc] init];
-        self.croutonView.backgroundColor = UIColor.grayColor;
+        // self.croutonView.backgroundColor = UIColor.grayColor;
         [self addSubview:self.croutonView];
     }
     return self;
@@ -91,7 +80,7 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     UILabel *titleView = [self _titleView];
     titleView.hidden = YES;
     
-    // update crouton view
+    // update crouton frame
     CGRect frame;
     float size = self.imageView.frame.size.width * 1.5; // 16px
     frame.origin.x = titleView.frame.origin.x;
@@ -99,7 +88,9 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     frame.size = CGSizeMake(size, size);
     // HBLogDebug(@"setting croutonView.frame to: %@", NSStringFromCGRect(frame));
     self.croutonView.frame = frame;
-    self.croutonView.layer.cornerRadius = floor(size / 4.0); // 3px
+    
+    // round crouton corners
+    // self.croutonView.layer.cornerRadius = floor(size / 4.0); // 3px
     
     // update button frame
     frame = self.frame;
@@ -113,8 +104,6 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
 }
 
 %end
-
-//------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 
