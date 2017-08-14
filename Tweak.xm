@@ -44,7 +44,10 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     
     NSString *targetBundleId = [action bundleIdForDestination:0];
     HBLogDebug(@"target bundle ID = %@", targetBundleId);
-    self.button.croutonView.image = [self croutonImageForBundleId:targetBundleId];
+    
+    if (targetBundleId) {
+        self.button.croutonView.image = [self croutonImageForBundleId:targetBundleId];
+    }
 }
 
 - (float)updateContentsAndWidth {
