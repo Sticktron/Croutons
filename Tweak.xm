@@ -23,6 +23,21 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
 
 %hook UIStatusBarBreadcrumbItemView
 
+%new - (UIImage *)croutonImageForBundleId:(NSString *)bundleId {
+    %log;
+    
+    /*
+     * Get icon via UIImage private method.
+     * Note: not working for me in all apps (sandbox issues?).
+     */
+    // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
+    // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0 scale:[[UIScreen mainScreen] scale]];
+    // image = [image _applicationIconImageForFormat:0 precomposed:YES];
+    
+    HBLogDebug(@"image for '%@' = %@", bundleId, image);
+    return image;
+}
+
 - (void)setSystemNavigationAction:(UISystemNavigationAction *)action {
     %log;
     %orig;
@@ -42,17 +57,6 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
     self.frame = frame;
     
     return ret;
-}
-
-%new - (UIImage *)croutonImageForBundleId:(NSString *)bundleId {
-    // float scale = UIScreen.mainScreen.scale;
-    // HBLogWarn(@"scale = %.2f", scale);
-    // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0 scale:scale];
-
-    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
-    image = [image _applicationIconImageForFormat:0 precomposed:YES]; //29x29
-    HBLogWarn(@"image for '%@' = %@", bundleId, image);
-    return image;
 }
 
 %end
