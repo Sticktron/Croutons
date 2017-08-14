@@ -31,8 +31,8 @@ static NSString *const kPrefsPlistPath = @"/var/mobile/Library/Preferences/com.s
      * Note: not working for me in all apps (sandbox issues?).
      */
     // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0];
-    // UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0 scale:[[UIScreen mainScreen] scale]];
-    // image = [image _applicationIconImageForFormat:0 precomposed:YES];
+    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:0 scale:[[UIScreen mainScreen] scale]];
+    image = [image _applicationIconImageForFormat:0 precomposed:YES];
     
     HBLogDebug(@"image for '%@' = %@", bundleId, image);
     return image;
