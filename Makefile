@@ -1,16 +1,23 @@
-# Install on MG5S/9
+# Install on MG5S-9
 # export THEOS_DEVICE_IP = 192.168.0.105
 # export THEOS_DEVICE_PORT = 22
 
 ARCHS = armv7 arm64
-TARGET = iphone:clang:10.1:9.0
+TARGET = iphone:clang:10.1:10.0
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = Croutons
-Croutons_FILES = Tweak.xm
-Croutons_CFLAGS = -fobjc-arc
-Croutons_FRAMEWORKS = UIKit
+TWEAK_NAME = CroutonsSB CroutonsUI
+
+CroutonsSB_FILES = CroutonsSB.xm
+CroutonsSB_CFLAGS = -fobjc-arc
+CroutonsSB_PRIVATE_FRAMEWORKS = AppSupport
+CroutonsSB_LIBRARIES = rocketbootstrap
+
+CroutonsUI_FILES = CroutonsUI.xm
+CroutonsUI_CFLAGS = -fobjc-arc
+CroutonsUI_PRIVATE_FRAMEWORKS = AppSupport
+CroutonsUI_LIBRARIES = rocketbootstrap
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
