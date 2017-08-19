@@ -11,8 +11,8 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>footerText</key>
-			<string>*Respring to apply settings now.</string>
+			<!-- <key>footerText</key>
+			<string>*Respring to apply settings now.</string> -->
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -36,7 +36,7 @@
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Respring</string>
+			<string>Apply Settings</string>
 			<key>action</key>
 			<string>respring</string>
 			<key>alignment</key>
@@ -48,9 +48,12 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Greetz: @candoizo
+			<string>Greets:
+@candoizo, @CPDigitalDarkroom, @jpasholk
 
-Created by Sticktron
+Created by @Sticktron
+
+(c) 2017
 
 😈
 </string>

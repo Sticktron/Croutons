@@ -10,14 +10,11 @@
 #define DEBUG_PREFIX @"[Croutons-SB]"
 #include "DebugLog.h"
 
+#import "headers.h"
 #import "common.h"
 #import <SpringBoard/SpringBoard.h>
 #import <rocketbootstrap/rocketbootstrap.h>
 #import <AppSupport/CPDistributedMessagingCenter.h>
-
-@interface UIImage (Private)
-+ (id)_applicationIconImageForBundleIdentifier:(id)bundleId format:(id)format scale:(CGFloat)scale;
-@end
 
 /*
 //IPC

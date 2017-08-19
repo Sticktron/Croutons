@@ -1,13 +1,9 @@
 Package: com.sticktron.croutons
-Name: Croutons Beta (iOS 9/10)
-Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, com.rpetrich.rocketbootstrap (>= 1.0.2)
-Version: 0.9.1
+Name: Croutons (iOS 9/10)
+Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader
+Version: 1.0
 Architecture: iphoneos-arm
-Description: App icons for breadcrumbs.
- Shortens the "breadcrumb trail" StatusBar item by showing the App's icon instead of its name.
- [ChangeLog]
- 0.9.1
- - now uses XPC to get icons (fixes sandbox issue)
+Description: Fancies up the breadcrumb trail statusbar item by showing icons instead of App names.
 Maintainer: Sticktron
 Author: Sticktron <sticktron@hotmail.com>
 Section: Tweaks
