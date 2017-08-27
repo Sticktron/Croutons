@@ -5,6 +5,8 @@
 ARCHS = armv7 arm64
 TARGET = iphone:clang:10.1:9.0
 
+THEOS_BUILD_DIR = Build
+
 include $(THEOS)/makefiles/common.mk
 
 # TWEAK_NAME = CroutonsUI CroutonsSB
