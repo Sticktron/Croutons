@@ -12,6 +12,6 @@ Fancies up the breadcrumb trail statusbar item by showing icons instead of App n
 - Requires a jailbroken iPhone, iPad or iPod Touch
 
 ## Availability
-DarkMessages is available for free from the BigBoss repository in Cydia.
+Croutons is available for free from the BigBoss repository in Cydia.
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/sticktron.svg?style=social&label=Follow)](http://twitter.com/sticktron)
